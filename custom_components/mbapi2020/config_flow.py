@@ -25,7 +25,7 @@ from .china_oauth import (
 from .client import Client
 from .const import (
     AUTH_METHOD_DEVICE,
-    CIAM_DEVICE_USER_AUTHZ_URL_CN,
+    CIAM_DEVICE_WEB_VERIFY_URL_CN,
     CONF_ALLOWED_REGIONS,
     CONF_DEBUG_FILE_SAVE,
     CONF_DELETE_AUTH_FILE,
@@ -238,7 +238,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             progress_action="wait_for_china_oauth",
             description_placeholders={
                 "user_code": self._device_user_code or "",
-                "verify_url": self._device_verify_url or CIAM_DEVICE_USER_AUTHZ_URL_CN,
+                "verify_url": self._device_verify_url or CIAM_DEVICE_WEB_VERIFY_URL_CN,
                 "expires_minutes": self._device_expires_minutes,
             },
             progress_task=self._device_wait_task,

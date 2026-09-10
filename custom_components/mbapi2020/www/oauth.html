@@ -51,7 +51,8 @@
       text-decoration: none;
       border: 0;
     }
-    button { margin-top: 10px; background: #2a2a2a; color: #f5f5f5; }
+    a + a, button { margin-top: 10px; }
+    button, a.secondary { background: #2a2a2a; color: #f5f5f5; }
     .hint { margin-top: 16px; font-size: 0.86rem; color: #8d8d8d; }
   </style>
 </head>
@@ -59,34 +60,44 @@
   <div class="phone">
     <div class="brand">MyStarCN · ONEAPP</div>
     <h1>Mercedes official login</h1>
-    <p>Note the device code, then open the Mercedes Connect-a-device page and type it there. Do not open a resume URL or reload a tab that already failed.</p>
+    <p>First sign in on the official Mercedes site. After that page finishes, open Connect-a-device and type the code. Do not refresh a page that is still loading.</p>
     <div class="code" id="code">--------</div>
-    <a id="open" href="#">Open Connect-a-device</a>
+    <a id="login" href="#">1. Sign in on Mercedes</a>
+    <a id="open" class="secondary" href="#">2. Connect this device</a>
     <button type="button" id="copy">Copy device code</button>
-    <p class="hint" id="status">Enter the code on the official page. Captcha and TAN stay on Mercedes servers.</p>
+    <p class="hint" id="status">Captcha and TAN stay on Mercedes servers. Keep this helper page open.</p>
   </div>
   <script>
     (function () {
-      const DEVICE_PAGE = "https://ciam-1.mercedes-benz.com.cn/as/user_authz.oauth2";
+      const LOGIN_PAGE = "https://id.mercedes-benz.com.cn/login";
+      const DEVICE_PAGE = "https://id.mercedes-benz.com.cn/api/v1/auth/device";
       const params = new URLSearchParams(window.location.search);
       const userCode = (params.get("user_code") || "").trim();
       const fallback = params.get("login_url") || "";
-      // user_authz.oauth2?user_code= redirects to id.mercedes-benz.com.cn with a
-      // one-time resume ticket; the SPA then hits the wrong host and the ALB fails.
-      const loginUrl = fallback && fallback.indexOf("user_code=") === -1
-        ? fallback
-        : DEVICE_PAGE;
+      // Stay on id.mercedes-benz.com.cn. A ciam-1 user_code/resume URL leaves
+      // the official login SPA on 加载中 for a cold start.
+      function officialUrl(raw, fallbackUrl) {
+        if (!raw) {
+          return fallbackUrl;
+        }
+        if (raw.indexOf("user_code=") !== -1 || raw.indexOf("resume=") !== -1) {
+          return fallbackUrl;
+        }
+        if (raw.indexOf("ciam-1.mercedes-benz.com.cn") !== -1) {
+          return fallbackUrl;
+        }
+        return raw;
+      }
       document.getElementById("code").textContent = userCode || "--------";
-      const open = document.getElementById("open");
-      const copy = document.getElementById("copy");
+      document.getElementById("login").href = LOGIN_PAGE;
+      document.getElementById("open").href = officialUrl(fallback, DEVICE_PAGE);
       const status = document.getElementById("status");
-      open.href = loginUrl;
-      copy.addEventListener("click", function () {
+      document.getElementById("copy").addEventListener("click", function () {
         if (!userCode) {
           return;
         }
         navigator.clipboard.writeText(userCode).then(function () {
-          status.textContent = "Device code copied. Paste it on the Mercedes page.";
+          status.textContent = "Device code copied. Sign in first, then paste it on Connect-a-device.";
         }).catch(function () {
           status.textContent = "Copy failed. Type the device code manually.";
         });

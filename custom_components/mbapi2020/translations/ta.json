@@ -37,7 +37,7 @@
         "title": "Mercedes ME 2020 - டான்"
       },
       "china_oauth": {
-        "description": "Waiting for the official Mercedes login to finish. Captcha and TAN are handled on the Mercedes site.",
+        "description": "First sign in on the official Mercedes site, then connect the device. Do not refresh a loading page.",
         "title": "Mercedes ME 2020 - Official login (China)"
       },
       "china_oauth_failed": {
@@ -46,7 +46,7 @@
       }
     },
     "progress": {
-      "wait_for_china_oauth": "A helper page opens with the device code. Open Connect-a-device from that page and type the code there. Captcha and TAN stay on Mercedes servers.\n\nDo not open a Mercedes URL that already includes the device code.\n\n[Open the helper page]({verify_url})\n\nDevice code: `{user_code}`\n\nThis login expires in {expires_minutes} minutes."
+      "wait_for_china_oauth": "A helper page opens with the device code. First sign in on the official Mercedes site. Then open Connect-a-device and type the code. Do not refresh a page that is still loading.\n\n[Open the helper page]({verify_url})\n\nDevice code: `{user_code}`\n\nThis login expires in {expires_minutes} minutes."
     }
   },
   "issues": {

@@ -14,7 +14,7 @@
       "china_oauth_token_invalid": "官方登录已完成，但奔驰拒绝了令牌。请重试官方登录。"
     },
     "progress": {
-      "wait_for_china_oauth": "会先打开带设备码的辅助页。请从该页进入奔驰「连接设备」并输入设备码。验证码和短信/邮件验证码都在官网完成。\n\n不要打开已经带有设备码的奔驰链接。\n\n[打开辅助页]({verify_url})\n\n设备码：`{user_code}`\n\n此登录将在 {expires_minutes} 分钟后过期。"
+      "wait_for_china_oauth": "会先打开带设备码的辅助页。请先在奔驰官网登录，再打开「连接设备」并输入设备码。不要刷新一直在加载的页面。\n\n[打开辅助页]({verify_url})\n\n设备码：`{user_code}`\n\n此登录将在 {expires_minutes} 分钟后过期。"
     },
     "step": {
       "user": {
@@ -25,7 +25,7 @@
         "title": "Set up the Mercedes ME 2020 connection"
       },
       "china_oauth": {
-        "description": "正在等待奔驰官方登录完成。验证码和短信/邮件验证码在官网处理。",
+        "description": "请先在奔驰官网登录，再连接设备。不要刷新一直在加载的页面。",
         "title": "Mercedes ME 2020 - 官方登录（中国区）"
       },
       "china_oauth_failed": {
