@@ -39,7 +39,7 @@ from .const import (
     CIAM_DEVICE_GRANT_TYPE,
     CIAM_DEVICE_SCOPE,
     CIAM_DEVICE_TOKEN_URL_CN,
-    CIAM_DEVICE_WEB_VERIFY_URL_CN,
+    CIAM_DEVICE_USER_AUTHZ_URL_CN,
     CN_DIRECT_TOKEN_EXPIRES_SECONDS,
     CN_TOKEN_RENEW_CHECK_INTERVAL_SECONDS,
     CN_TOKEN_RENEW_LEEWAY_SECONDS,
@@ -490,14 +490,13 @@ class Oauth:
 
     @staticmethod
     def china_device_verify_url(user_code: str) -> str:
-        """Return the official China identity Connect-a-device page.
+        """Return the PingFederate Connect-a-device page.
 
-        Stay on ``id.mercedes-benz.com.cn``. Submitting a code on
-        ``user_authz.oauth2`` sends a one-time resume ticket to the login SPA,
-        which then stays on 加载中 for a cold start.
+        Do not append ``user_code``. Sign in first on the public Mercedes
+        website, then type the code on this page.
         """
         del user_code
-        return CIAM_DEVICE_WEB_VERIFY_URL_CN
+        return CIAM_DEVICE_USER_AUTHZ_URL_CN
 
     async def async_request_device_code(self) -> dict[str, Any]:
         """Start the official China OAuth device-code login."""

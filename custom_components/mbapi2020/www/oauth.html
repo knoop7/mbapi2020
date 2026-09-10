@@ -60,7 +60,7 @@
   <div class="phone">
     <div class="brand">MyStarCN · ONEAPP</div>
     <h1>Mercedes official login</h1>
-    <p>First sign in on the official Mercedes site. After that page finishes, open Connect-a-device and type the code. Do not refresh a page that is still loading.</p>
+    <p>First open the official Mercedes website and sign in there. Then open Connect-a-device and type the code. Do not refresh a page that is still loading.</p>
     <div class="code" id="code">--------</div>
     <a id="login" href="#">1. Sign in on Mercedes</a>
     <a id="open" class="secondary" href="#">2. Connect this device</a>
@@ -69,21 +69,17 @@
   </div>
   <script>
     (function () {
-      const LOGIN_PAGE = "https://id.mercedes-benz.com.cn/login";
-      const DEVICE_PAGE = "https://id.mercedes-benz.com.cn/api/v1/auth/device";
+      const LOGIN_PAGE = "https://www.mercedes-benz.com.cn/";
+      const DEVICE_PAGE = "https://ciam-1.mercedes-benz.com.cn/as/user_authz.oauth2";
       const params = new URLSearchParams(window.location.search);
       const userCode = (params.get("user_code") || "").trim();
       const fallback = params.get("login_url") || "";
-      // Stay on id.mercedes-benz.com.cn. A ciam-1 user_code/resume URL leaves
-      // the official login SPA on 加载中 for a cold start.
+      // Do not open user_authz.oauth2?user_code= or a one-time resume URL.
       function officialUrl(raw, fallbackUrl) {
         if (!raw) {
           return fallbackUrl;
         }
         if (raw.indexOf("user_code=") !== -1 || raw.indexOf("resume=") !== -1) {
-          return fallbackUrl;
-        }
-        if (raw.indexOf("ciam-1.mercedes-benz.com.cn") !== -1) {
           return fallbackUrl;
         }
         return raw;
